@@ -582,6 +582,27 @@ BOOL WINAPI layout_TextOutU(
 	if(orig_x > (RUBY_OFFSET_DUMMY_FULL / 2)) {
 		orig_x = (orig_x - RUBY_OFFSET_DUMMY_FULL) + ruby_offset_actual;
 	}
+
+	/// Debug potential changes in ruby sprite shifting...
+	/// --------------------------------------------------
+	size_t i;
+	json_t *val;
+	static auto pen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
+	auto hPrevObject = SelectObject(hdc, pen);
+
+	auto draw_at_x = [&] (json_int_t x) {
+		auto point = x;
+		POINT points[2] = { {point, 0}, {point, 32} };
+		Polyline(hdc, points, sizeof(points) / sizeof(points[0]));
+	};
+	draw_at_x(0);
+	draw_at_x(orig_x);
+	json_array_foreach(Layout_Tabs, i, val) {
+		draw_at_x(json_integer_value(val));
+	}
+	SelectObject(hdc, hPrevObject);
+	/// --------------------------------------------------
+
 	layout_state_t lay = {hdc, {orig_x, orig_y}};
 	return layout_process(&lay, layout_textout_raw, lpString, c);
 }

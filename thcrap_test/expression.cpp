@@ -287,3 +287,39 @@ TEST(ExpressionTest, ExpressionTesting16B) {
 	}
 	EXPECT_EQ(expr_ret, UINT_MAX);
 }
+
+TEST(ExpressionTest, ExpressionTesting17A) {
+	size_t expr_ret = 0;
+	ExprRepeatTest{
+		expr_ret = 0;
+		eval_expr("0 ? *<nop:0> : 3", '\0', &expr_ret, NULL, NULL);
+	}
+	EXPECT_EQ(expr_ret, 3);
+}
+
+TEST(ExpressionTest, ExpressionTesting17B) {
+	size_t expr_ret = 0;
+	ExprRepeatTest{
+		expr_ret = 0;
+		eval_expr("0 ? *<nop:0> : 3", '\0', &expr_ret, &DummyRegs, NULL);
+	}
+	EXPECT_EQ(expr_ret, 3);
+}
+
+TEST(ExpressionTest, ExpressionTesting18A) {
+	size_t expr_ret = 0;
+	ExprRepeatTest{
+		expr_ret = 0;
+		eval_expr("1?1?4:2:3", '\0', &expr_ret, &DummyRegs, NULL);
+	}
+	EXPECT_EQ(expr_ret, 4);
+}
+
+TEST(ExpressionTest, ExpressionTesting18B) {
+	size_t expr_ret = 0;
+	ExprRepeatTest{
+		expr_ret = 0;
+		eval_expr("1?1?4:2:3", '\0', &expr_ret, &DummyRegs, NULL);
+	}
+	EXPECT_EQ(expr_ret, 4);
+}

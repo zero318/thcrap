@@ -8,14 +8,14 @@
   */
 
 	.intel_syntax
-	.global	_bp_entry, _bp_entry_indexptr, _bp_entry_localptr, _bp_entry_callptr, _bp_entry_end
+	.global	_bp_entry, _bp_entry_caveptr, _bp_entry_localptr, _bp_entry_callptr, _bp_entry_end
 
 _bp_entry:
 	pusha
 	pushf
 	cld
 	push	%esp
-_bp_entry_indexptr:
+_bp_entry_caveptr:
 	push	0x12345678
 _bp_entry_localptr:
 	push	0x12345678
@@ -25,4 +25,5 @@ _bp_entry_callptr:
 	popf
 	popa
 	ret
+	.balign 16, 0xCC
 _bp_entry_end:
